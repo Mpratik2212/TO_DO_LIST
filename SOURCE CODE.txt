@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #todo-container {
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #todo-header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #todo-list {
+            padding: 10px;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .task input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .task button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        #add-task {
+            display: flex;
+            padding: 10px;
+        }
+
+        #task-input {
+            flex-grow: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+
+        #add-button {
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .priority-high {
+            background-color: #e74c3c;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .priority-medium {
+            background-color: #f39c12;
+            color: #fff;
+        }
+
+        .priority-low {
+            background-color: #27ae60;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="todo-container">
+        <div id="todo-header">
+            <h2>To-Do List</h2>
+        </div>
+        <div id="todo-list"></div>
+        <div id="add-task">
+            <input type="text" id="task-input" placeholder="Add a new task...">
+            <button id="add-button">Add</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const todoList = document.getElementById('todo-list');
+            const taskInput = document.getElementById('task-input');
+            const addButton = document.getElementById('add-button');
+
+            addButton.addEventListener('click', function () {
+                const taskText = taskInput.value.trim();
+                if (taskText !== '') {
+                    addTask(taskText);
+                    taskInput.value = '';
+                }
+            });
+
+            function addTask(taskText) {
+                const taskElement = document.createElement('div');
+                taskElement.classList.add('task');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+
+                const taskTextElement = document.createElement('span');
+                taskTextElement.innerText = taskText;
+
+                const prioritySelect = document.createElement('select');
+                prioritySelect.innerHTML = `
+                    <option value="high" class="priority-high">High</option>
+                    <option value="medium" class="priority-medium">Medium</option>
+                    <option value="low" class="priority-low">Low</option>
+                `;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'Delete';
+                deleteButton.addEventListener('click', function () {
+                    todoList.removeChild(taskElement);
+                });
+
+                taskElement.appendChild(checkbox);
+                taskElement.appendChild(taskTextElement);
+                taskElement.appendChild(prioritySelect);
+                taskElement.appendChild(deleteButton);
+
+                todoList.appendChild(taskElement);
+            }
+        });
+    </script>
+</body>
+</html>
